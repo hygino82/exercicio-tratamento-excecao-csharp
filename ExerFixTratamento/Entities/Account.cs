@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using ExerFixTratamento.Entities.Exceptions;
 
 namespace ExerFixTratamento.Entities
 {
@@ -19,7 +17,7 @@ namespace ExerFixTratamento.Entities
         {
             Number = number;
             Holder = holder;
-            Balance = balance;
+            Deposit(balance);
             WithdrawLimit = withdrawLimit;
         }
 
@@ -30,6 +28,14 @@ namespace ExerFixTratamento.Entities
 
         public void Withdraw(double amount)
         {
+            if (amount > WithdrawLimit)
+            {
+                throw new DomainException("The amount exceeds withdraw limit");
+            }
+            if (amount > Balance)
+            {
+                throw new DomainException("Not enough balance");
+            }
             Balance -= amount;
         }
 
